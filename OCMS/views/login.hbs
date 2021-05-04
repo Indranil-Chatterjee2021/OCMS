@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+	input[type=text]{
+         margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 480px;">ZEEBOK POLYCLINIC</li>
+			<li><a href="/">Home</a></li>
+		</ul>
+	</nav>
+<center>
+{{!-- <div class="containers"> --}}
+	<div class="login-detail">
+		<h2>Login Form</h2>
+		<hr>
+		<form action="/login" method="POST">
+		<input type="text" placeholder="Enter Email Address Or Phone No" name="emailphno">
+		
+		<input type="password" placeholder="Enter Password" name="pwd">
+		
+		<button type="submit">Login</button>
+		</form>
+		<br><a href="/forgotpassword">Forgot Password ?</a><br><br>
+	{{#if Error}}<p style="color:red;">{{Error}}</p>{{/if}}
+	</div>
+{{!-- </div> --}}
+</center>
+	<div class="footer">
+		<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+	</div>
+</body>
+</html>

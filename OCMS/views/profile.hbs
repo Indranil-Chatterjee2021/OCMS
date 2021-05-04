@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script> 
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox" name="userslct">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="/dashboard">Patients</a>
+  <a href="/doctor">Doctors</a>
+  <a href="/profile">Profile</a>
+  <a href="/collection">Collections</a>
+  <a href="/feedback">View Feedback</a>
+  <a href="/payment">Payments</a>
+  <a href="/report">Reports</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">My Profile</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris');HideMsg();">New Admin</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <div class="user-profile">
+		<h2>My Profile</h2>
+	<script>
+	{{#if success}}
+      alert("{{success}}");
+	{{/if}}	
+	{{#if Error}}
+      alert("{{Error}}");
+	{{/if}}
+	</script>
+    <form onSubmit="return onSubmit();" method="POST" action="/profile">
+    {{#each records}}  
+    <fieldset>
+		<legend>Your Details:</legend>  
+    <input type="hidden" name="usrid"value="{{user_id}}">
+    <label>My Name:</label>
+		<input type="text" name="fName" value="{{fname}}">
+		<label>My Email Address:</label>
+		<input type="email" name="email" value="{{email}}">
+		<label>My Phone No:</label>
+		<input type="tel" pattern="^\d{10}$" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57' value="{{phone}}">
+    <label>My City:</label>    
+		<input type="text" name="city" value="{{city}}">
+    </fieldset><br>
+    <fieldset>
+		<legend>Change Password If Required:</legend>
+    <label>Enter Old Password:</label>
+		<input type="password" title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter Old Password" name="opwd" id="opwd">
+		<label>Enter New Password:</label>
+    <input type="password" title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter New Password" name="npwd" id="npwd">
+		</fieldset>    		
+		<button style="margin-left:5%" type="submit">Update Profile</button>
+    {{/each}}
+		</form>
+		</div> 
+  </div>
+
+<div id="Paris" class="tabcontent">
+  <div class="user-profile" style="height: 90vh;">
+	<h2>Add New Administrator</h2>
+	<script>
+	{{#if succes}}
+      alert("{{succes}}");
+	{{/if}}	
+	{{#if Errors}}
+      alert("{{Errors}}");
+	{{/if}}
+	</script>
+	<form onSubmit="return oonSubmit();" method="POST" action="/profile/addnew" id="add-admin">
+    <fieldset>
+	<legend>Fill The Details:</legend><br>  
+    <label>Enter Full Name:</label>
+	<input type="text" required title="Full name required" placeholder="Enter Full Name" name="fName">
+	<label>Enter Email Address:</label>
+	<input type="email" required title="Please enter valid email address" placeholder="Enter Email Address" name="email">
+	<label>Enter Phone No:</label>
+	<input type="tel" required title="Phone no must be 10 digit NUMBER" pattern="^\d{10}$" placeholder="Enter Phone No" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57'>
+    <label>Enter City:</label>    
+	<input type="text" required title="City name required" placeholder="Enter City Name" name="city">
+    <label>Enter Password:</label>
+	<input type="password" required title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter Password" name="pwd">
+	<label>Re-type Password:</label>
+    <input type="password" required title="Re-type Password should match Password" placeholder="Re-type Password" name="rpwd">
+	</fieldset>    		
+	<button style="margin-left:5%" type="submit">Create Profile</button>
+    </form>
+		</div>
+</div>
+</div> 
+
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+</body>
+</html>

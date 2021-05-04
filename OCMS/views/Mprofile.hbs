@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script> 
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox" name="userslct">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="Pdashboard">Book Appointment</a>
+  <a href="Mappnt">View Appointment</a>
+  <a href="Mprofile">My Profile</a>
+  <a href="Mfdbk">Feedback</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">Your Profile Details</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <div class="user-profile">
+		<h2>My Profile</h2>
+	<script>
+	{{#if success}}
+      alert("{{success}}");
+	{{/if}}	
+	{{#if Error}}
+      alert("{{Error}}");
+	{{/if}}
+	</script>
+    <form onSubmit="return onSubmit();" method="POST" action="/Mprofile">
+    {{#each records}}  
+    <fieldset>
+		<legend>Your Details:</legend>  
+    <input type="hidden" name="usrid"value="{{user_id}}">
+    <label>My Name:</label>
+		<input type="text" name="fName" value="{{fname}}">
+		<label>My Email Address:</label>
+		<input type="email" name="email" value="{{email}}">
+		<label>My Phone No:</label>
+		<input type="tel" pattern="^\d{10}$" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57' value="{{phone}}">
+    <label>My City:</label>    
+		<input type="text" name="city" value="{{city}}">
+    </fieldset><br>
+    <fieldset>
+		<legend>Change Password If Required:</legend>
+    <label>Enter Old Password:</label>
+		<input type="password" title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter Old Password" name="opwd" id="opwd">
+		<label>Enter New Password:</label>
+    <input type="password" title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter New Password" name="npwd" id="npwd">
+		</fieldset>    		
+		<button style="margin-left:5%" type="submit">Update Profile</button>
+    {{/each}}
+		</form>
+		</div> 
+  </div>
+</div> 
+
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+</body>
+</html>

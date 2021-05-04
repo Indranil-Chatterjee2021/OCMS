@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script> 
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox" name="userslct">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="/dashboard">Patients</a>
+  <a href="/doctor">Doctors</a>
+  <a href="/profile">Profile</a>
+  <a href="/collection">Collections</a>
+  <a href="/feedback">View Feedback</a>
+  <a href="/payment">Payments</a>
+  <a href="/report">Reports</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">Feedback List</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+   <center><h3>{{title}}</h3></center><br>
+   <table class="docls" id="table">
+            <tbody id="tabody">
+              <tr>
+                <th>FNo</th>
+                <th>Date</th>
+                <th>PID</th>
+                <th>Name</th>
+                <th>Message</th>
+                <th>Reply</th>
+                <th>Reply On</th>
+                <th>Replied By</th>
+                <th>Action</th>
+              </tr>
+              {{#each records}}
+              <tr>
+                <td>{{ fb_id }}</td>
+                <td>{{ fdate }}</td>
+                <td>{{ user_id }}</td>
+                <td>{{ fname }}</td>
+                <td>{{ msg }}</td>
+                <td>{{ reply }}</td>
+                <td>{{ reply_on }}</td>
+                <td>{{ reply_by }}</td>
+                <td><a onclick="ConfirmReply()"style="color:indigo" href="javascript:void(0)">Reply</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          
+  </div>
+</div> 
+<div id="modalTwo" class="modal">
+      <div class="modal-content">
+        <div class="contact-form" >
+          <span class="close">&times;</span>
+          <form action="/feedback" method="POST" style="background: #eee">
+            <h2>FeedBack Reply Form</h2>
+            <div>
+              <input type="hidden" id="FID" name="fid">
+              <label>Reply To :-</label>
+              <input type="text" id="fname" readonly="true" style="background: white;color:orangered"></input>
+              <lable>User Message :-</lable>
+              <textarea rows="4" cols="40" id="msg" readonly="true"></textarea>
+              <lable>Enter Reply Message :-</lable>
+              <textarea required rows="4" cols="40" id="rmsg" name="rmsg"></textarea>
+             </div><br> 
+            <button type="submit">Click to Reply</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+</body>
+</html>

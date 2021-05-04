@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script>
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="Pdashboard">Book Appointment</a>
+  <a href="Mappnt">View Appointment</a>
+  <a href="Mprofile">My Profile</a>
+  <a href="Mfdbk">Feedback</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">My Appointment</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <center><h3>{{title}}</h3></center>
+  <table class="docls" id="table">
+    <tbody id="tabody">
+    <tr>
+    <th>APID</th>
+    <th>Patient Name</th>
+    <th>Phone No</th>
+    <th>Age</th>
+    <th>City</th>
+    <th>Illness</th>
+    <th>Doctor Booked</th>
+    <th>Doctor Fees</th>
+    <th>Booking Date</th>
+    <th>Fee Paid</th>
+    <th>Is Visited</th>
+    </tr>
+    {{#each records}}
+    <tr>
+    <td>{{ APID }}</td>
+    <td>{{ fname }}</td>
+    <td>{{ phone }}</td>
+    <td>{{ age }}</td>
+    <td>{{ city }}</td>
+    <td>{{ illness }}</td>
+    <td>{{ dname }}</td>
+    <td>{{ dfees }}</td>
+    <td>{{ apDate }}</td>
+    <td>{{ feePaid }}.00</td>
+    <td>{{ DPFLAG }}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+<script src="/rupee.js"></script>
+
+</body>
+</html>

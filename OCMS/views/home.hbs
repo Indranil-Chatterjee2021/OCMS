@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 400px;">ZEEBOK POLYCLINIC</li>
+			<li><a href="/login">Login</a></li>
+			<li><a href="/register">Register</a></li>
+		</ul>
+	</nav>
+<div class="hcontainers" style="width:1000px;">	
+		<div class="mission">
+			<br>
+			<h2>Mission, Vision, Values </h2><br>
+			<h3>Our Mission</h3><br>
+			<p style="font-size:13px;"><i>To promote the health of our patients with personalized care.</i></p>
+			<br><h3>Our Vision</h3>
+            <br><p style="font-size:13px;"><i>The best place to receive care. The best place to provide care.</i></p>
+            <br><h3>Who We Are</h3>
+            <br><p style="font-size:13px;">A physician-led and physician-governed multispecialty medical group, working together to serve our patients with high quality, comprehensive care.</p>
+            <br><h3>Our Values</h3>
+            <br><ul style="font-size:13px;padding-left:20px">
+				 <li>Put the needs of our patients first.</li>
+                 <li>Treat all patients, visitors and each other with compassion and respect.</li>
+                 <li>Work as a team to provide high-quality care and service to our patients and other customers.</li>
+                 <li>Contribute to continuous improvement and excellence in everything we do.</li>
+                </ul>
+		</div>
+		<br>
+		<h2>A History of Collaborative Care</h2><br>
+         <p>Established in 2008, The Zeebok Polyclinic's mission has always been to promote the health of our patients with personalized health care.</p>
+         <p>Here at The Zeebok Polyclinic, our physicians are in charge. This means they have the power to put you first. It’s a departure in health care philosophy that has attracted some of the area’s most respected physicians. And a difference you’ll feel the moment you walk through the door.</p>
+         <br><ul style="padding-left:23px"><li>More than 200 top primary care and specialty physicians and advanced practice clinicians.</li>
+                <li>One of the largest multi-specialty clinics in the Barrackpore Sound region.</li>
+                <li>More than 3 locations throughout the greater Barrackpore area.</li>
+			</ul><br>
+        <h2>A Multispecialty, Patient-Focused Team</h2><br>
+         <p>Think of The Zeebok Polyclinic as a single doorway to your health care needs. From pediatrics, family practice and internal medicine to specialist physicians and surgeons, The Zeebok Polyclinic team works together with one goal in mind: what’s right for you.</p>
+         <br><ul style="padding-left:23px"><li>Primary care focused on prevention, disease management and appropriate clinical interventions</li>
+            <li>The top specialist physicians and surgeons across more than two dozen medical specialties, working with your primary care doctor for the most comprehensive care</li>
+            <li>On-site services at several locations for your convenience.</li>
+         </ul><br>
+        <h2>Where Technology Meets Humanity</h2><br>
+          <p>The Zeebok Polyclinic embraces state-of-the-art technology, but we never forget the human side of health care.  As a Polyclinic patient, you’ll have access to:</p><br>
+          <ul style="padding-left:23px"><li>MyChart – a convenient online tool that empowers you to be a better advocate for your family’s health.  My Chart offers the convenience and flexibility of access to your medical information, anytime.</li>
+             <li>Specialties and services that combine prevention, education and treatment.</li>
+            <li>Health care that considers the whole person – primary care doctors to manage your health, help you when you’re sick, and work side by side with specialists when needed.</li>
+          </ul><br>
+		  <h2>Our Specialist Doctors </h2><br>
+        <table class="docls" id="table">
+            <thead>
+              <tr>
+                <th>Doctor Name</th>
+                <th>Registration No</th>
+                <th>Specialist In</th>
+                <th>Available In Week</th>
+                <th>Visit Time</th>
+                <th>Fees</th>
+                <th>Availability</th>
+            </tr>
+            </thead>
+            <tbody>
+               {{#each records}}
+              <tr>
+                <td>{{ dname }}</td>
+                <td>{{ regno }}</td>
+                <td>{{ ucat }}</td>
+                <td>{{ wkdys }}</td>
+                <td>{{ timings }}</td>
+                <td>{{ dfees }}.00</td>
+                <td>{{ isPresent }}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+		<br><h2>Contact Us </h2>
+		<br><p>Zeebok Polyclinic<br>Near Lalkuti, Barasat Road<br>
+		       Phone no. 033-5962387, 9563278190<br>
+			   E-mail: zeebok_polyclinic@gmail.com<br>
+			   Barrackpore(W.B) - 700122</p><br><br>         
+</div>
+<div class="footer">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+</body>
+</html>

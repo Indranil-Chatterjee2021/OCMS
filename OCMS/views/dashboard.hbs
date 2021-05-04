@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script>
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="/dashboard">Patients</a>
+  <a href="/doctor">Doctors</a>
+  <a href="/profile">Profile</a>
+  <a href="/collection">Collections</a>
+  <a href="/feedback">View Feedback</a>
+  <a href="/payment">Payments</a>
+  <a href="/report">Reports</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">View Appointment</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris');HideMsg();">Book Appointment</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo');HideMsg();">Print Receipt</button>
+  {{#if success}}<p id="msg" style="color:forestgreen;">{{success}}</p>{{/if}}
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <form id="form1" action="/dashboards" method="POST">
+  <h3>{{title}} <label style="margin-left: 61%;">For Date :</label><input name="sdt" type="text" style="max-width:100px;max-height:3px" value="{{cdate}}"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form1').submit();">Search</a></h3>
+  </form>
+     <table class="docls" id="table">
+             <tbody id="tabody">
+              <tr>
+                <th>APID</th>
+                <th>Patient Name</th>
+                <th>Phone No</th>
+                <th style="display:none;">DOCID</th>
+                <th>Problem</th>
+                <th>Doctor Booked</th>
+                <th style="display:none;">DOCFEE</th>
+                <th>Booking Date</th>
+                <th>Fee Paid</th>
+                <th>Action</th>
+              </tr>
+              {{#each records}}
+              <tr>
+                <td>{{ APID }}</td>
+                <td>{{ fname }}</td>
+                <td>{{ phone }}</td>
+                <td style="display:none;">{{ DocID }}</td>
+                <td>{{ illness }}</td>
+                <td>{{ dname }}</td>
+                <td style="display:none;">{{ dfees }}</td>
+                <td>{{ apDate }}</td>
+                <td>{{ feePaid }}.00</td>
+                <td><a onclick="ConfirmReceipt()"style="color:indigo" href="javascript:void(0)">Payment</a>
+                                &emsp; | &emsp;
+                    <a onclick="Preview({{APID}})"style="color:indigo" href="javascript:void(0)">View</a>
+                            
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              {{#each Sfees}}
+              <tr>
+                <th colspan="6" style="text-align:right">Total Collections (Rs):</th>
+                
+				        <th id="sum" style="text-align:center;color:maroon">{{sfpd}}.00</th>
+                <th></th>
+              </tr>
+              {{/each}}
+            </tfoot>
+          </table>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <center>
+  <div class="booking-form-view">
+		<h2>Appointment Form</h2>
+		<hr>
+		<form action="/dashboard" method="POST">
+		<input type="text" required title="Full name required" placeholder="Enter Full Name" name="fName">
+		
+		<input type="tel" required title="Phone no must be 10 digit NUMBER" pattern="^\d{10}$" placeholder="Enter Phone No" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57'>
+		
+		<input type="text" required title="City name required" placeholder="Enter City Name" name="city">
+        
+		<input type="text" title="Please enter age" placeholder="Enter Age" name="age" onkeypress='return event.charCode>=48 && event.charCode<=57'>
+		
+		<input type="text" required title="Please enter age" placeholder="Enter Patient Illness Description" name="illness">
+		
+		<select required title="Please select doctor" class="DselectBox" name="doctor">
+				<option hidden>Choose Reference Doctor...</option>
+        {{#each dropdownVals}}
+        <option value="{{DocID}}">{{dname}}</option>
+        {{/each}}
+				{{!-- <option>Pradip Saha</option> --}}
+    </select><br><br>
+		
+		<button type="submit">Confirm Appoinment</button>
+		</form>
+		</div> 
+    </center>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <form id="form2" action="/dasboards" method="POST">
+  <h3>{{rtitle}} <label style="margin-left: 64%;">Enter APID : </label><input name="apid" type="text" style="text-align:center;max-width:80px;max-height:3px"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form2').submit();">Search</a></h3>
+  </form>
+     <table class="docls" id="Rtable">
+            <thead>
+              <tr>
+                <th>RNO</th>
+                <th>Date</th>
+                <th>Patient Name</th>
+                <th style="display:none;">APID</th>
+                <th>Fee Paid</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+               {{#each receipt}}
+              <tr>
+                <td>{{ rcpt_no }}</td>
+                <td>{{ rcpt_date }}</td>
+                <td>{{ fname }}</td>
+                <td style="display:none;">{{ APID }}</td>
+                <td>{{ amount }}.00</td>
+                <td><a onclick="RPreview()" href="javascript:void(0)">Preview</a> </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+     </div>
+ </div> 
+
+<div id="modalTwo" class="modal">
+      <div class="modal-content">
+        <div class="contact-form" >
+          <span class="close">&times;</span>
+          <form action="/receipt" method="POST" style="background: #eee">
+            <h2>Fee Receipt Processing</h2>
+            <div>
+              <input type="hidden" id="APID" name="apid">
+              <label>Receipt No:- <input style="max-width:90px;max-height:10%;text-align:center" type="text" name="txtrno" id="txtrno" readonly="true" value="{{rcptid}}"/><label style="margin-left: 25%;">Date:- </label>
+              <input style="max-width:94px;max-height:10%;text-align:center" type="text" name="txtrdate" id="txtrdate" readonly="true" value="{{cdate}}"></label>
+              {{!-- <input class="fname" type="text" name="txtrno" id="txtrno" readonly="true" value="{{rcptid}}"> --}}
+              <label>Patient Name:-</label>
+              <input style="color:orangered" type="text" name="txtname" id="txtname" readonly="true">
+              <input type="hidden" id="txtDocID" name="txtDocID">
+              <label>Doctor Booked:- <input style="color:orangered;max-width:130px;max-height:10%" type="text" name="txtdname" id="txtdname" readonly="true"/><label style="margin-left: 10%;">Fees:- </label>
+              <input style="max-width:94px;max-height:10%;text-align:center" type="text" name="txtdfee" id="txtdfee" readonly="true"/></label>
+              <label>Enter Doctor Fees(Rs):-</label>
+              <input required type="text" name="txtamt" id="txtamt">
+              <input type="hidden" name="txtpby" id="txtpby" value="{{User_logIn}}">
+             </div><br> 
+            <button type="submit">Confirm Receipt</button>
+          </form>
+        </div>
+      </div>
+    </div>   
+    <div id="modalOne" class="modal">
+      <div class="modal2-content">
+        <div class="contact-form">
+          <span class="close">&times;</span>
+          <div id="dvContents">
+            <div class="left">
+            <img alt="" src="../images/logo.png" width="120" height="60"/>
+            </div>
+        <center>
+        <div class="right">
+            <span class="label" style="color: indigo;">ZEEBOK POLYCLINIC<br>
+            16no, Railway Gate, Barrackpore-122</span>
+        </div>
+        <hr><br><br>
+        </center>
+            <div style="margin-top: 15px;">
+              <center>
+              <table style="border-spacing:8px;border: 1px solid black;width:100%">
+                <tr>
+                  <th>Receipt No:</th>
+                  <td id="rno"></td>
+                  <td></td>
+                  <th>Date:</th>
+                  <td id="rdt"></td>
+                </tr>
+                <tr>
+                  <th>Receipt From:</th>
+                  <td id="fnm"></td>
+                  <td ></td>
+                  <th>Amount Rs:</th>
+                  <td id="ramt"></td>
+                </tr>
+                <tr>
+                  <th>Amount in words:</th>
+                  <td id="wamt" style="font-weight: 9px;"></td>
+                  <th style="padding-left: 10%;">Sign:</th>
+                </tr>
+              </table>
+              </center><br><br><br>
+            </div>
+            <hr><br>
+            </div> 
+            <button type="button" onClick="convertAmount(document.getElementById('ramt').innerHTML);PrintDiv(); ">PRINT RECEIPT</button>
+          
+        </div>
+      </div>
+    </div>
+
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+<script src="/rupee.js"></script>
+
+</body>
+</html>

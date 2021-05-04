@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script> 
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox" name="userslct">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="/dashboard">Patients</a>
+  <a href="/doctor">Doctors</a>
+  <a href="/profile">Profile</a>
+  <a href="/collection">Collections</a>
+  <a href="/feedback">View Feedback</a>
+  <a href="/payment">Payments</a>
+  <a href="/report">Reports</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">Payment Processing</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <form id="form1" action="/payment/SearchByDate" method="POST">
+  <h3>{{title}} <label style="margin-left: 22.5%;">Enter From Date : </label><input name="fromdate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <label style="margin-left: 0%;">Enter To Date : </label><input name="todate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form1').submit();">Search</a></h3>
+  </form>
+          <table class="docls" id="table">
+            <tbody id="tabody">
+              <tr>
+                <th colspan="8">LIST OF DOCTORS CHECKED NUMBER OF PATIENTS FOR PERIOD : {{FromDate}} TO {{ToDate}}</th>
+              </tr>
+              <tr>
+                <th>Doctor ID</th>
+                <th>Doctor Name</th>
+                <th>Doctor Fee</th>
+                <th>No Of Patients</th>
+                <th>Total Income</th>
+                <th>Action</th>
+              </tr>
+              {{#each records}}
+              <tr>
+                <td>{{ DocID }}</td>
+                <td>{{ dname }}</td>
+                <td>{{ dfees }}</td>
+                <td>{{ NoPatients }}</td>
+                <td>{{ TOPAY }}.00</td>
+                <td><a onclick="ConfirmPayment()"style="color:indigo" href="javascript:void(0)">Click ToPay</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+            </table>
+          <center><button style="max-width:40%;"type="submit" id="btnExport" onclick="Export()">Print To PDF</button></center>
+  </div>
+</div> 
+<div id="modalTwo" class="modal">
+      <div class="modal-content">
+        <div class="contact-form" >
+          <span class="close">&times;</span>
+          <form OnSubmit="return PSubmit();" method="POST" action="/payment/processing" style="background: #eee">
+            <h2>Doctor Payment Processing</h2>
+            <div>
+              <label>Voucher No:- <input style="max-width:90px;max-height:10%;text-align:center" type="text" name="txtvno" id="txtvno" readonly="true" value="{{pmtno}}"/><label style="margin-left: 25%;">Date:- </label>
+              <input style="max-width:94px;max-height:10%;text-align:center" type="text" name="txtvdate" id="txtvdate" readonly="true" value="{{VDate}}"></label>
+              <label>Paid For Period:-</label>
+              <input name="frmdt" type="text" style="color:orangered;margin-left:8%;text-align:center;max-width:125px;max-height:10%" value="{{FromDate}}"/> To <input name="todt" type="text" style="color:orangered;text-align:center;max-width:125px;max-height:10%" value="{{ToDate}}"/>
+              <label>Paid To Doctor:-</label>
+              <input style="font-weight:bold;max-width:327px;max-height:10%;color:orangered"type="text" name="txtname" id="txtname" readonly="true">
+              <input type="hidden" id="txtDocID" name="txtDocID">
+              <label>No Of Patients Checked:- <input style="font-weight:bold;text-align:center;max-width:40px;max-height:10%" type="text" name="txtnptns" id="txtnptns" readonly="true"/>
+              <label>Enter Amount(Rs):-</label>
+              <input required style="color:orangered;text-align:center;font-weight:bold;max-width:70px;max-height:10%"type="text" name="txtamt" id="txtamt">
+              <input type="hidden" name="txtpby" id="txtpby" value="{{User_logIn}}">
+             </div><br> 
+            <button type="submit">Confirm Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+<script type="text/javascript" src="/pdfmake.min.js"></script>
+    <script type="text/javascript" src="/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('table'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("CollectionRpt.pdf");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

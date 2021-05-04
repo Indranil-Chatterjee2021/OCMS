@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script> 
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox" name="userslct">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="Pdashboard">Book Appointment</a>
+  <a href="Mappnt">View Appointment</a>
+  <a href="Mprofile">My Profile</a>
+  <a href="Mfdbk">Feedback</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">FeedBack Quiery</button>
+</div>
+
+<div id="London" class="tabcontent" style="display: block;">
+  <div class="user-profile" style="height: 45vh;">
+		<h2>FeedBack Form</h2>
+	<script>
+	{{#if success}}
+      alert("{{success}}");
+	{{/if}}	
+	</script>
+    <form method="POST" action="/Mfdbk">
+     
+    <fieldset>
+		<legend>Enter Your Message:</legend>  
+    <br>
+		<center><textarea required rows="4" cols="40" id="fmsg" name="fmsg"></textarea></center>
+    </fieldset> <br>   		
+		<button style="margin-left:5%" type="submit">Click to Submit</button>
+  
+	</form>
+   </div> 
+  </div>
+</div> 
+
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+</body>
+</html>

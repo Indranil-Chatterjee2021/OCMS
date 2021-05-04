@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="Pdashboard">Book Appointment</a>
+  <a href="Mappnt">View Appointment</a>
+  <a href="Mprofile">My Profile</a>
+  <a href="Mfdbk">Feedback</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');HideMsg();">Doctor List</button>
+</div>
+<div id="London" class="tabcontent" style="display: block;">
+          <center><h3>{{title}}</h3></center>
+  <script>
+	  {{#if success}}
+      alert("{{success}}");
+	  {{/if}}	
+	</script>
+          <table class="docls" id="table">
+            <thead>
+              <tr>
+                <th style="display:none;">DOC ID</th>
+                <th>Doctor</th>
+                <th>RegNo</th>
+                <th>Specialist In</th>
+                <th>Available In Week</th>
+                <th>Visit Time</th>
+                <th>Fees</th>
+                <th>Availability</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+               {{#each records}}
+              <tr>
+                <td style="display:none;">{{ DocID }}</td> 
+                <td>{{ dname }}</td>
+                <td>{{ regno }}</td>
+                <td>{{ ucat }}</td>
+                <td>{{ wkdys }}</td>
+                <td>{{ timings }}</td>
+                <td>{{ dfees }}</td>
+                <td>{{ isPresent }}</td>
+                <td><a onclick="ConfirmBook()"style="color:indigo" href="javascript:void(0)">Book Appointment</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+  </div>
+</div>
+<div id="modalTwo" class="modal">
+      <div class="modal-content">
+        <div class="contact-form" >
+          <span class="close">&times;</span>
+          <form action="/patient" method="POST" style="background: #eee">
+            <h2>Book Your Appointment</h2>
+            <div>
+              <input type="text" required title="Full name required" placeholder="Enter Full Name" name="fName">
+		
+		          <input type="tel" required title="Phone no must be 10 digit NUMBER" pattern="^\d{10}$" placeholder="Enter Phone No" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57'>
+		
+		          <input type="text" required title="City name required" placeholder="Enter City Name" name="city">
+        
+		          <input type="text" title="Please enter age" placeholder="Enter Age" name="age" onkeypress='return event.charCode>=48 && event.charCode<=57'>
+		
+		          <input type="text" required title="Please enter age" placeholder="Enter Patient Illness Description" name="illness">
+		          <label>Doctor Name: <input style="max-width:73%;color:orangered" readonly="true" type="text" required title="Doctor Selected" id="doctor" name="doctor"></label>
+		          <input type="hidden" name="DocId" id="DocId">
+
+              <input type="hidden" name="txtusr" id="txtpby" value="{{User_logIn}}">
+             </div><br> 
+            <button type="submit">Confirm Appoinment</button>
+          </form>
+        </div>
+      </div>
+    </div>  	
+	
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+</body>
+</html>

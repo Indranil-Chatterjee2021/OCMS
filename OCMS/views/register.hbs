@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+	input[type=]::-webkit-inner-spin-button,
+    input[type=]::-webkit-outer-spin-button{
+        -webkit-appearance: none;
+		-moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 480px;">ZEEBOK POLYCLINIC</li>
+			<li><a href="/">Home</a></li>
+		</ul>
+	</nav>
+<center>
+	{{!-- <div class="containers"> --}}
+	<div class="user-detail">
+		<h2>Registration Form</h2>
+		<hr>
+		{{#if success}}<p style="color:forestgreen;">{{success}} <a href="/login">Click here to login</a></p>{{/if}}
+		{{#if Error}}<p style="color:red;">{{Error}}</p>{{/if}}
+		<form action="/register" method="POST">
+		<input type="text" required title="Full name required" placeholder="Enter Full Name" name="fName" value="{{fData.Fname}}">
+		
+		<input type="tel" placeholder="Enter Phone No" name="phno" onkeypress='return event.charCode>=48 && event.charCode<=57' value="{{fData.PhNo}}">
+		
+		<input type="text" required title="City name required" placeholder="Enter City Name" name="city" value="{{fData.City}}">
+        
+		<input type="email" required title="Please enter valid email address" placeholder="Enter Email Address" name="email" value="{{fData.Email}}">
+		
+		<input type="password" required title="Password must contain at least 8 characters, including Upper/lowercase and Numbers/Special Characters"placeholder="Enter Password" name="pwd">
+		
+		<input type="password" required title="Confirm Password should match Password" placeholder="Enter Confirm Password" name="cpwd">
+		
+		<button type="submit">Register</button>
+		</form>
+		</div>
+	{{!-- </div> --}}
+</center>
+	<div class="footer">
+		<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+	</div>
+</body>
+</html>

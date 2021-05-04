@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Clinic Management System</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/popupmodal.css">
+<script src="/tablink.js"></script>
+</head>
+<body>
+	<nav>
+		<img src="../images/logo.png" width="120" height="60">
+		<ul>
+			<li class="homeclinic" style="margin-right: 425px;">ZEEBOK POLYCLINIC</li>
+           	<li><select onchange="location=this.value;" class="selectBox">
+				{{#if User_logIn}}   
+                <option hidden>{{ User_logIn}}</option>
+				{{/if}}
+                <option value="/logout">LogOut</option>
+                </select>
+			</li>
+		</ul>
+	</nav>
+<div class="content">
+<div class="sidenav">
+  <a href="/dashboard">Patients</a>
+  <a href="/doctor">Doctors</a>
+  <a href="/profile">Profile</a>
+  <a href="/collection">Collections</a>
+  <a href="/feedback">View Feedback</a>
+  <a href="/payment">Payments</a>
+  <a href="/report">Reports</a>
+</div>
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London');">1.Appointments</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris');">2.Collections</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo');">3.Payments</button>
+</div>
+<div id="London" class="tabcontent" style="display: block;">
+  <form id="form1" action="/report/appointemnts" method="POST">
+  <h3>{{atitle}} <label style="margin-left: 55%;">For Date :</label><input name="sdt" type="text" style="max-width:100px;max-height:3px"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form1').submit();">Search</a></h3>
+  </form>
+     <table class="docls" id="Atable">
+             <tbody id="tabody">
+              <tr>
+                <th colspan="7">APPOINTMENTS BOOKED REPORT FOR DATE : {{cdate}}</th>
+              </tr>
+              <tr>
+                <th>APID</th>
+                <th>Patient Name</th>
+                <th>Phone No</th>
+                <th>Problem</th>
+                <th>Doctor Booked</th>
+                <th>Booking Date</th>
+                <th>Fee Paid</th>
+              </tr>
+              {{#each Arecords}}
+              <tr>
+                <td>{{ APID }}</td>
+                <td>{{ fname }}</td>
+                <td>{{ phone }}</td>
+                <td>{{ illness }}</td>
+                <td>{{ dname }}</td>
+                <td>{{ apDate }}</td>
+                <td>{{ feePaid }}.00</td>
+              </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              {{#each Atotal}}
+              <tr>
+                <th colspan="7" style="text-align:center">Total Booked Appointments : {{atotal}}</th>
+              </tr>
+              {{/each}}
+            </tfoot>
+          </table>
+          <center><button style="max-width:40%;"type="submit" id="btnExport" onclick="AExport()">Print To PDF</button></center>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <form id="form2" action="/report/collection" method="POST">
+  <h3>{{ctitle}} <label style="margin-left: 32%;">Enter From Date : </label><input name="fromdate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <label style="margin-left: 0%;">Enter To Date : </label><input name="todate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form2').submit();">Search</a></h3>
+  </form>
+          <table class="docls" id="Ctable">
+            <tbody id="tabody">
+              <tr>
+                <th colspan="5">LIST OF COLLECTIONS REPORT FOR PERIOD : {{CFromDate}} TO {{CToDate}}</th>
+              </tr>
+              <tr>
+                <th>Receipt No</th>
+                <th>Date</th>
+                <th>Patient Name</th>
+                <th>APID</th>
+                <th>Fee Paid</th>
+              </tr>
+              {{#each Crecords}}
+              <tr>
+                <td>{{ rcpt_no }}</td>
+                <td>{{ rcpt_date }}</td>
+                <td>{{ fname }}</td>
+                <td>{{ APID }}</td>
+                <td>{{ amount }}.00</td>
+              </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              {{#each Ctotal}}
+              <tr>
+                <th colspan="5" style="text-align:center">Total Collections (Rs): {{Tamt}}.00</th>
+              </tr>
+              {{/each}}
+            </tfoot>
+          </table>
+          <center><button style="max-width:40%;"type="submit" id="btnExport" onclick="CExport()">Print To PDF</button></center>
+ 
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <form id="form3" action="/report/payment" method="POST">
+  <h3>{{ptitle}} <label style="margin-left: 33%;">Enter From Date : </label><input name="fromdate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <label style="margin-left: 0%;">Enter To Date : </label><input name="todate" type="text" style="text-align:center;max-width:95px;max-height:3px"/>
+  <a style="padding-left:8px;text-decoration:none" href="javascript:;" onclick="document.getElementById('form3').submit();">Search</a></h3>
+  </form>
+          <table class="docls" id="Ptable">
+            <tbody id="tabody">
+              <tr>
+                <th colspan="8">LIST OF DOCTORS PAID FOR PERIOD : {{PFromDate}} TO {{PToDate}}</th>
+              </tr>
+              <tr>
+                <th>PNO</th>
+                <th>Doctor Name</th>
+                <th>Total Patients</th>
+                <th>Paid On</th>
+                <th>Amount Paid</th>
+                <th>For Period</th>
+                <th>Processed By</th>
+              </tr>
+              {{#each Precords}}
+              <tr>
+                <td>{{ PNo }}</td>
+                <td>{{ dname }}</td>
+                <td>{{ NPChecked }}</td>
+                <td>{{ PDate }}</td>
+                <td>{{ AmtPaid }}.00</td>
+                <td>{{ ForPeriod }}</td>
+                <td>{{ ProcessBy }}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              {{#each Ptotal}}
+              <tr>
+                <th colspan="7" style="text-align:center">Total Paid Amount (Rs): {{Pamt}}.00</th>
+              </tr>
+              {{/each}}
+            </tfoot>
+            </table>
+          <center><button style="max-width:40%;"type="submit" id="btnExport" onclick="PExport()">Print To PDF</button></center>
+ 
+     </div>
+ </div> 
+
+<div class="Dfooter">
+	<p>Copyrights © Indranil Infosys 2020. All rights reserved</p>
+</div>
+<script src="/popupmodal.js"></script>
+<script src="/rupee.js"></script>
+<script type="text/javascript" src="/pdfmake.min.js"></script>
+    <script type="text/javascript" src="/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        function AExport() {
+            html2canvas(document.getElementById('Atable'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("AppointmentRpt.pdf");
+                }
+            });
+        }
+        function CExport() {
+            html2canvas(document.getElementById('Ctable'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("CollectionRpt.pdf");
+                }
+            });
+        }
+        function PExport() {
+            html2canvas(document.getElementById('Ptable'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("PaymentRpt.pdf");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
